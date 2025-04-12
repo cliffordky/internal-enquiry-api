@@ -30,8 +30,7 @@ namespace Api.Controllers
                 var enquiry = new Core.Models.Enquiry(
                         Guid.NewGuid(),
                         request.ConsumerId,
-                        request.SubscriberName,
-                        request.SubscriberContact,
+                        request.SubscriberId,
                         request.EnquiryTypeId.ToString(),
                         request.RecordDate
                     );
@@ -44,8 +43,7 @@ namespace Api.Controllers
                 {
                     Id = enquiry.Id,
                     ConsumerId = enquiry.ConsumerId,
-                    SubscriberName = enquiry.SubscriberName,
-                    SubscriberContact = enquiry.SubscriberContact,
+                    SubscriberId = enquiry.SubscriberId,
                     EnquiryTypeId = Int32.Parse(enquiry.EnquiryTypeId),
                     RecordDate = enquiry.RecordDate
                 });
@@ -70,8 +68,7 @@ namespace Api.Controllers
                     {
                         Id = x.Id,
                         ConsumerId = x.ConsumerId,
-                        SubscriberName = x.SubscriberName,
-                        SubscriberContact = x.SubscriberContact,
+                        SubscriberId = x.SubscriberId,
                         EnquiryTypeId = Int32.Parse(x.EnquiryTypeId),
                         RecordDate = x.RecordDate
                     }).ToList());

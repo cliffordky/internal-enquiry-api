@@ -2,7 +2,6 @@ using Coravel;
 using Core.Encryption;
 using Core.Models;
 using Marten;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using Weasel.Core;
 
@@ -49,8 +48,6 @@ namespace Api
                 options.UseEncryptionRulesForProtectedInformation(encryptionService);
 
                 options.Schema.For<Enquiry>()
-                    .AddEncryptionRuleForProtectedInformation(x => x.SubscriberName)
-                    .AddEncryptionRuleForProtectedInformation(x => x.SubscriberContact)
                     .AddEncryptionRuleForProtectedInformation(x => x.EnquiryTypeId);
                 // If we're running in development mode, let Marten just take care
                 // of all necessary schema building and patching behind the scenes
