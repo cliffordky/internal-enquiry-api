@@ -27,15 +27,28 @@ namespace Api.Controllers
         {
             try
             {
-                var enquiry = new Core.Models.Enquiry(
+				string hash = Core.Encryption.Hash.GetHashString(request.ConsumerId.ToString() +
+                    request.SubscriberId.ToString() +
+                    request.EnquiryTypeCode+
+                    request.RecordDate);
+
+				await using var session = _store.LightweightSession();
+				var existing = await session.Query<Core.Models.Enquiry>().SingleOrDefaultAsync(x => x.Hash == hash);
+				if (existing != null)
+				{
+					return Result<Models.v1.EnquiryResponse>.Error("Enquiry already exists");
+				}
+
+
+				var enquiry = new Core.Models.Enquiry(
                         Guid.NewGuid(),
                         request.ConsumerId,
                         request.SubscriberId,
-                        request.EnquiryTypeId.ToString(),
-                        request.RecordDate
+                        request.EnquiryTypeCode.ToString(),
+                        request.RecordDate,
+                        hash
                     );
 
-                await using var session = _store.LightweightSession();
                 session.Store(enquiry);
                 await session.SaveChangesAsync();
 
@@ -44,7 +57,7 @@ namespace Api.Controllers
                     Id = enquiry.Id,
                     ConsumerId = enquiry.ConsumerId,
                     SubscriberId = enquiry.SubscriberId,
-                    EnquiryTypeId = Int32.Parse(enquiry.EnquiryTypeId),
+                    EnquiryTypeCode = enquiry.EnquiryTypeCode,
                     RecordDate = enquiry.RecordDate
                 });
             }
@@ -69,7 +82,7 @@ namespace Api.Controllers
                         Id = x.Id,
                         ConsumerId = x.ConsumerId,
                         SubscriberId = x.SubscriberId,
-                        EnquiryTypeId = Int32.Parse(x.EnquiryTypeId),
+                        EnquiryTypeCode = x.EnquiryTypeCode,
                         RecordDate = x.RecordDate
                     }).ToList());
             }

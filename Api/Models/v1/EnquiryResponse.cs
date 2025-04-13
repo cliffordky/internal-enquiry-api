@@ -6,7 +6,7 @@
         public Guid ConsumerId { get; set; }
         public Guid SubscriberId { get; set; }
 
-        public int EnquiryTypeId { get; set; }
+        public string EnquiryTypeCode { get; set; }
         public DateTimeOffset RecordDate { get; set; }
     }
 }

@@ -48,7 +48,7 @@ namespace Api
                 options.UseEncryptionRulesForProtectedInformation(encryptionService);
 
                 options.Schema.For<Enquiry>()
-                    .AddEncryptionRuleForProtectedInformation(x => x.EnquiryTypeId);
+                    .AddEncryptionRuleForProtectedInformation(x => x.EnquiryTypeCode);
                 // If we're running in development mode, let Marten just take care
                 // of all necessary schema building and patching behind the scenes
                 if (builder.Environment.IsDevelopment())
