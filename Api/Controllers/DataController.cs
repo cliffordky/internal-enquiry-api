@@ -2,6 +2,7 @@
 using Ardalis.Result.AspNetCore;
 using Coravel.Cache.Interfaces;
 using Marten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -21,6 +22,8 @@ namespace Api.Controllers
             _cache = cache;
         }
 
+        //[Authorize("write")]
+        [Authorize]
         [TranslateResultToActionResult]
         [HttpPost("enquiry")]
         public async Task<Result<Models.v1.EnquiryResponse>> AddEnquiry(Models.v1.EnquiryRequest request)
@@ -67,6 +70,8 @@ namespace Api.Controllers
             }
         }
 
+        //[Authorize("read")]
+        [Authorize]
         [TranslateResultToActionResult]
         [HttpGet("enquiries")]
         public async Task<Result<List<Models.v1.EnquiryResponse>>> GetEnquiriesForConsumer(Guid ConsumerId)
